@@ -1,0 +1,22 @@
+version: "3"
+
+services:
+    apache:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: v2-burtasy-app
+        restart: always
+        volumes:
+            - ./:/var/www/html/
+        labels:
+            traefik.enable: true
+            traefik.docker.network: traefik
+            traefik.http.routers.v2-burtasy.rule: Host(`v2.burtasy.local`)
+            traefik.http.routers.v2-burtasy.entrypoints: web
+        networks:
+            - traefik
+
+networks:
+    traefik:
+        external: true
